@@ -128,21 +128,39 @@
             opacity: .9;
             margin-bottom: 2.2rem;
         }
-        .cta-button {
-            background: linear-gradient(45deg, var(--danger), var(--accent));
+        .cta-button,
+        .cta-download {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: var(--white);
             padding: 14px 38px;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(255,107,107,0.13);
-            transition: transform .3s, box-shadow .3s;
+            box-shadow: 0 6px 18px rgba(102,126,234,0.13);
+            transition: background .3s, color .3s, transform .3s, box-shadow .3s;
+            margin: 0 7px 12px 0;
+            text-decoration: none;
+            display: inline-block;
         }
-        .cta-button:hover {
+        .cta-download {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: #fff;
+            font-weight: 600;
+        }
+        .cta-button:hover,
+        .cta-download:hover {
+            background: linear-gradient(90deg, #5a67d8, #6b21a8); /* more saturated purple gradient, no yellow */
+            color: #fff;
             transform: scale(1.04) translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255,107,107,.3);
+            box-shadow: 0 10px 30px rgba(102,126,234,.18);
+            text-decoration: none;
+        }
+        .cta-download .material-icons {
+            vertical-align: middle;
+            margin-right: 7px;
+            font-size: 1.2em;
         }
         /* Section titles */
         .section-title {
@@ -357,6 +375,10 @@
                 <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
                     Join the Revolution
                 </button>
+                <a href="https://claude.ai/public/artifacts/ecc4c35b-6872-424e-902d-0ba49cc2b80e" class="cta-download" target="_blank" rel="noopener">
+                    <span class="material-icons">get_app</span>
+                    Download Our App
+                </a>
             </div>
         </div>
     </section>
