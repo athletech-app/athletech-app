@@ -51,6 +51,7 @@
             color: var(--accent);
             border-bottom: 2px solid var(--accent);
         }
+        /* Removed .cta-download from nav-links2 */
         .cta-download {
             background: var(--primary);
             color: #fff;
@@ -420,6 +421,50 @@
             .team-title { font-size: 1.2rem; }
             .contact-headline { font-size: 1.7rem;}
         }
+        /* Footer Styles */
+        .footer-social {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 0 80px 0;
+            background: #000;
+            color: #fff;
+            margin-top: 0;
+        }
+        .footer-social a.social-icon {
+            display: inline-block;
+            margin: 0 8px;
+            text-decoration: none;
+            border-radius: 100%;
+            background: #fff;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .footer-social a.social-icon:hover {
+            background: #FFD93D;
+            box-shadow: 0 4px 18px rgba(255,217,61,0.17);
+        }
+        .footer-social svg {
+            width: 38px;
+            height: 38px;
+            display: block;
+        }
+        .footer-social .footer-message {
+            color: #fff;
+            font-size: 1.18rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            margin-top: 0;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
@@ -433,13 +478,7 @@
             <a href="#insight">Insights</a>
             <a href="#team">Team</a>
             <a href="#contact">Contact</a>
-            <a href="https://claude.ai/public/artifacts/13ce5360-16e0-47e7-b57c-a42945d44da2"
-               class="cta-download"
-               target="_blank"
-               rel="noopener"
-               aria-label="Download Our App">
-                <span class="material-icons">download</span> Download Our App
-            </a>
+            <!-- Download App button removed from sidebar -->
         </nav>
     </div>
     <!-- HERO Section with headline and tagline -->
@@ -621,6 +660,18 @@
             </div>
         </div>
     </section>
+    <!-- FOOTER SOCIAL SECTION -->
+    <div class="footer-social">
+        <div class="footer-message">
+            Visit our <a href="https://www.instagram.com/athletech.in/" 
+                target="_blank" 
+                rel="noopener"
+                style="color: #FFD93D; text-decoration: underline; font-weight: bold;">Instagram page</a> for updates and more!
+        </div>
+        <a class="social-icon" href="https://www.instagram.com/athletech.in/" target="_blank" rel="noopener" aria-label="Instagram">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:38px;height:38px;display:block;border-radius:10px;">
+        </a>
+    </div>
     <script>
         document.getElementById('contactForm').onsubmit = function(e){
             e.preventDefault();
