@@ -23,65 +23,108 @@
             font-family: 'Montserrat', Arial, sans-serif;
             background: var(--background); color: var(--text);
         }
-        .topbar {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; height: 84px; padding: 0 48px;
-            position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 18px rgba(25,33,74,0.09);
+        /* ----- HEADER ----- */
+        .header-container {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 16px 32px 8px 32px;
+            border-bottom: 2px solid #f3f3f3;
+            justify-content: space-between;
         }
-        .brand-title {
-            font-size: 2.2rem;
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        .logo-circle {
+            width: 72px; /* enlarged */
+            height: 72px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 0 3px #e2e6ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-right: 22px;
+        }
+        .logo-circle img {
+            width: 62px; /* enlarged */
+            height: 62px;
+            object-fit: contain;
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            color: var(--primary);
-            letter-spacing: 1.5px;
+            font-size: 2.1rem;
+            color: #1b2342;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+        .header-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1b2342;
+            letter-spacing: 3px;
+            margin-top: 3px;
         }
         .nav-links2 {
             display: flex;
             gap: 36px;
             align-items: center;
+            margin-left: 36px;
+        }
+        .nav-links2 {
+            margin-left: auto;
         }
         .nav-links2 a {
             color: var(--primary);
             text-decoration: none;
-            font-size: 1.13rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             border-bottom: 2px solid transparent;
             transition: color .2s, border-color .2s;
+            padding: 6px 0;
+            position: relative;
         }
         .nav-links2 a.active, .nav-links2 a:hover {
             color: var(--accent);
             border-bottom: 2px solid var(--accent);
         }
-        /* Removed .cta-download from nav-links2 */
-        .cta-download {
-            background: var(--primary);
-            color: #fff;
-            font-weight: 700;
-            padding: 12px 28px;
-            border: none;
-            border-radius: 35px;
-            font-size: 1.13rem;
-            margin-left: 22px;
-            box-shadow: 0 8px 24px rgba(25,33,74,0.11);
-            transition: background .3s, color .3s, transform .3s, box-shadow .3s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            cursor: pointer;
+        @media (max-width: 900px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 10px 4px 10px;
+                gap: 6px;
+            }
+            .header-left {
+                flex-direction: row;
+                align-items: center;
+            }
+            .nav-links2 {
+                gap: 16px;
+                margin: 10px 0 0 auto;
+                width: 100%;
+                justify-content: flex-end;
+            }
         }
-        .cta-download:hover {
-            background: var(--accent);
-            color: var(--primary);
-            transform: scale(1.04) translateY(-2px);
+        @media (max-width: 700px) {
+            .header-title { font-size: 1.1rem;}
+            .header-subtitle { font-size: 0.5rem; letter-spacing: 1.2px;}
+            .logo-circle { width: 36px; height: 36px; margin-right: 8px;}
+            .logo-circle img { width: 28px; height: 28px;}
+            .nav-links2 { font-size: 0.82rem; }
         }
-        .cta-label {
-            font-size: 0.95rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-top: 10px;
-            text-align: center;
-            letter-spacing: 1px;
-        }
+        /* ----------- HERO STYLES ----------- */
         .hero-section {
             min-height: 68vh;
             position: relative;
@@ -118,24 +161,24 @@
             align-items: center;
         }
         .hero-content h1 {
-            font-size: 3.2rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            margin-bottom: 14px;
-            letter-spacing: -.02em;
+            margin-bottom: 12px;
+            letter-spacing: -.01em;
             text-shadow: 0 6px 32px rgba(0,0,0,0.25);
         }
         .hero-content .main-tagline {
-            font-size: 1.35rem;
-            font-weight: 700;
+            font-size: 2.1rem;
+            font-weight: 800;
             letter-spacing: 2.5px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: var(--accent);
             text-shadow: 0 2px 12px rgba(0,0,0,0.09);
         }
         .hero-content .hero-desc {
             font-size: 1.18rem;
             font-weight: 400;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             color: #eaf2fb;
             text-shadow: 0 2px 12px rgba(0,0,0,0.11);
         }
@@ -144,18 +187,20 @@
             color: #fff;
             border: 2px solid #fff;
             border-radius: 32px;
-            font-size: 1.25rem;
+            font-size: 1.17rem;
             font-weight: 700;
-            padding: 15px 44px;
+            padding: 13px 38px;
             cursor: pointer;
             transition: background .2s, color .2s;
+            margin: 0 auto;
+            display: block;
         }
         .hero-content .get-started-button:hover {
             background: var(--accent);
             color: var(--primary);
             border: 2px solid var(--accent);
         }
-        /* Services Section */
+        /* ----------- SERVICES SECTION ----------- */
         .services-section {
             background: var(--background);
             padding: 60px 0 40px 0;
@@ -192,16 +237,16 @@
         }
         .service-card h3 {
             color: var(--primary);
-            font-size: 1.26rem;
+            font-size: 1.29rem;
             font-weight: 800;
             margin-bottom: 9px;
         }
         .service-card p {
             color: var(--text);
-            font-size: 1.07rem;
+            font-size: 1.09rem;
             font-weight: 500;
         }
-        /* Insights Section */
+        /* ----------- INSIGHTS SECTION ----------- */
         .insight-section {
             background: var(--background);
             padding: 55px 0 40px 0;
@@ -262,7 +307,7 @@
             font-size: 1.01rem;
             color: #444;
         }
-        /* Team Section */
+        /* ----------- TEAM SECTION ----------- */
         .team-section {
             background: var(--primary-light);
             padding: 55px 0 34px 0;
@@ -324,7 +369,7 @@
             font-size: .97rem;
             color: var(--grey);
         }
-        /* Contact Us Section */
+        /* ----------- CONTACT SECTION ----------- */
         .contact-section {
             background: #f4f7fa;
             padding: 70px 0 70px 0;
@@ -411,17 +456,17 @@
             .contact-left, .contact-form-wrap { padding: 32px 7vw; }
         }
         @media (max-width: 900px) {
-            .topbar { padding: 0 12px; }
             .services-grid { flex-direction: column; align-items:center;}
             .service-card { width: 90%; }
             .insight-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 700px) {
-            .hero-content h1 { font-size:1.7rem;}
+            .hero-content h1 { font-size:1.1rem;}
+            .hero-content .main-tagline { font-size: 1.3rem;}
             .team-title { font-size: 1.2rem; }
             .contact-headline { font-size: 1.7rem;}
         }
-        /* Footer Styles */
+        /* ----------- FOOTER ----------- */
         .footer-social {
             width: 100vw;
             display: flex;
@@ -465,23 +510,161 @@
             text-align: center;
             letter-spacing: 0.5px;
         }
+        /* ----------- REGISTER FORM MODAL ----------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.24);
+            justify-content: center; align-items: flex-start;
+            overflow: auto;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .register-modal {
+            background: #fff;
+            border-radius: 14px;
+            max-width: 520px;
+            width: 100%;
+            margin: 48px auto;
+            padding: 36px 32px 32px 32px;
+            box-shadow: 0 8px 46px rgba(25,33,74,0.12);
+            animation: modalIn 0.22s;
+            position: relative;
+        }
+        @keyframes modalIn { from { opacity: 0; transform: translateY(36px);} to {opacity: 1; transform: translateY(0);} }
+        .register-modal h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 28px;
+            color: #222;
+            text-align: center;
+        }
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .register-form label {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+            display: block;
+        }
+        .register-form input[type="text"],
+        .register-form input[type="email"],
+        .register-form textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1.5px solid #e0e3ea;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f8fafc;
+            color: #242424;
+            margin-bottom: 2px;
+            outline: none;
+            transition: border-color .16s;
+            font-family: inherit;
+        }
+        .register-form input[type="text"]:focus,
+        .register-form input[type="email"]:focus,
+        .register-form textarea:focus {
+            border-color: var(--primary);
+        }
+        .register-form .form-group {
+            margin-bottom: 10px;
+        }
+        .register-form .form-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-bottom: 12px;
+        }
+        .register-form .form-radio-group label {
+            font-weight: 400;
+            font-size: 1rem;
+            color: #232323;
+            margin-bottom: 0;
+            margin-left: 6px;
+            display: inline;
+        }
+        .register-form .form-radio-group input[type="radio"] {
+            margin-right: 4px;
+        }
+        .register-form .form-radio-row {
+            display: flex;
+            gap: 18px;
+        }
+        .register-form .form-checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .register-form .form-checkbox-group input[type="checkbox"] {
+            margin-right: 6px;
+        }
+        .register-form .submit-btn {
+            width: 100%;
+            padding: 13px 0;
+            border: none;
+            border-radius: 24px;
+            background: #181921;
+            color: #fff;
+            font-size: 1.13rem;
+            font-weight: 700;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: background .22s;
+        }
+        .register-form .submit-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .register-modal .close-modal {
+            position: absolute;
+            top: 18px; right: 30px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #222;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .register-success-message {
+            text-align: center;
+            color: #19214A;
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="topbar">
-        <div>
-            <span class="brand-title">AthleTech</span>
+    <!-- HEADER (logo + title + tagline) -->
+    <div class="header-container">
+      <div class="header-left">
+        <div class="logo-circle">
+            <img src="logo.png" alt="AthleTech logo" />
         </div>
-        <nav class="nav-links2">
-            <a href="#home" class="active">Home</a>
-            <a href="#insight">Insights</a>
-            <a href="#team">Team</a>
-            <a href="#contact">Contact</a>
-            <!-- Download App button removed from sidebar -->
-        </nav>
+        <div class="header-text">
+            <span class="header-title">ATHLETECH</span>
+            <span class="header-subtitle">TRACK. TRAIN. TRIUMPH.</span>
+        </div>
+      </div>
+      <nav class="nav-links2">
+        <a href="#home" class="active">Home</a>
+        <a href="#insight">Insights</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-    <!-- HERO Section with headline and tagline -->
+
+    <!-- HERO Section -->
     <section class="hero-section" id="home">
         <img 
             src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" 
@@ -495,18 +678,11 @@
             <div class="hero-desc">
                 Explore our services designed to elevate your athlete journey.
             </div>
-            <button class="get-started-button">Get Started</button>
-            <div class="cta-label">Download Our App</div>
-            <a href="https://claude.ai/public/artifacts/13ce5360-16e0-47e7-b57c-a42945d44da2"
-               class="cta-download"
-               target="_blank"
-               rel="noopener"
-               aria-label="Download Our App">
-                <span class="material-icons">get_app</span> Download Our App
-            </a>
+            <button class="get-started-button" id="getStartedBtn">Get Started</button>
         </div>
     </section>
-    <!-- SERVICES SECTION (Blue & Yellow Theme, New Section) -->
+
+    <!-- SERVICES SECTION -->
     <section class="services-section" id="services">
       <div class="services-grid">
         <div class="service-card">
@@ -554,7 +730,7 @@
         </div>
       </div>
     </section>
-    <!-- INSIGHTS (BMI & ACL have no image) -->
+    <!-- INSIGHTS SECTION -->
     <section class="insight-section" id="insight">
         <div class="section-title">Insights & Resources</div>
         <div class="insight-grid">
@@ -632,7 +808,7 @@
             </div>
         </div>
     </section>
-    <!-- CONTACT US SECTION (transformed layout) -->
+    <!-- CONTACT US SECTION -->
     <section class="contact-section" id="contact">
         <div class="contact-container">
             <div class="contact-left">
@@ -672,12 +848,163 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:38px;height:38px;display:block;border-radius:10px;">
         </a>
     </div>
+
+    <!-- REGISTER FORM MODAL -->
+    <div class="modal-overlay" id="registerModalOverlay">
+      <div class="register-modal" id="registerModal">
+        <button class="close-modal" id="closeModalBtn" aria-label="Close">&times;</button>
+        <h2 id="registerModalTitle">Register Here to Get Started</h2>
+        <form class="register-form" id="registerForm" autocomplete="off">
+          <div class="form-group">
+            <label for="reg_name">Full Name *</label>
+            <input type="text" id="reg_name" name="reg_name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_dob">Date Of Birth *</label>
+            <input type="text" id="reg_dob" name="reg_dob" placeholder="Your dob" required>
+          </div>
+          <div class="form-group">
+            <label>Gender *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_gender" value="Female" required> Female</label>
+              <label><input type="radio" name="reg_gender" value="Male"> Male</label>
+              <label><input type="radio" name="reg_gender" value="Prefer not to say"> Prefer not to say</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg_contact">Contact Number *</label>
+            <input type="text" id="reg_contact" name="reg_contact" placeholder="Your mobile number" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_email">Email Address *</label>
+            <textarea id="reg_email" name="reg_email" rows="2" placeholder="Enter your email address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Fitness Goals & Preferences *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_goals" value="Learn Sports" required> Learn Sports</label>
+              <label><input type="radio" name="reg_goals" value="General Wellness"> General Wellness</label>
+              <label><input type="radio" name="reg_goals" value="Improve Fitness"> Improve Fitness</label>
+              <label><input type="radio" name="reg_goals" value="Other Services"> Other Services</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Sports Interests *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_sports" value="Team Sports" required> Team Sports</label>
+              <label><input type="radio" name="reg_sports" value="Individual Sports"> Individual Sports</label>
+              <label><input type="radio" name="reg_sports" value="Indoor Sports"> Indoor Sports</label>
+              <label><input type="radio" name="reg_sports" value="Adventure Sports"> Adventure Sports</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Preferred Training Mode *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_mode" value="Offline" required> Offline</label>
+              <label><input type="radio" name="reg_mode" value="Online"> Online</label>
+              <label><input type="radio" name="reg_mode" value="Home Based"> Home Based</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Medical History *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_medical" value="No Issues" required> No Issues</label>
+              <label><input type="radio" name="reg_medical" value="Injuries Issues"> Injuries Issues</label>
+              <label><input type="radio" name="reg_medical" value="Other Issues"> Other Issues</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Fitness Level *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_level" value="Beginner" required> Beginner</label>
+              <label><input type="radio" name="reg_level" value="Intermediate"> Intermediate</label>
+              <label><input type="radio" name="reg_level" value="Advanced"> Advanced</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dietary Preferences *</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_diet" value="Vegetarian" required> Vegetarian</label>
+              <label><input type="radio" name="reg_diet" value="Non Vegetarian"> Non Vegetarian</label>
+              <label><input type="radio" name="reg_diet" value="Vegan"> Vegan</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>How did you hear about Athletech?*</label>
+            <div class="form-radio-group">
+              <label><input type="radio" name="reg_ref" value="Social Media" required> Social Media</label>
+              <label><input type="radio" name="reg_ref" value="Advertisement"> Advertisement</label>
+              <label><input type="radio" name="reg_ref" value="Referrals"> Referrals</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-checkbox-group">
+              <input type="checkbox" name="reg_terms" required>
+              <label>I agree to the terms and conditions*</label>
+            </div>
+          </div>
+          <button class="submit-btn" type="submit" id="registerSubmitBtn">Register now</button>
+        </form>
+        <div class="register-success-message" id="registerSuccessMsg" style="display:none;">
+            kindly check your inbox for login details
+        </div>
+      </div>
+    </div>
+
     <script>
-        document.getElementById('contactForm').onsubmit = function(e){
-            e.preventDefault();
-            alert('Thank you for your inquiry! We will get back to you soon.');
-            this.reset();
-        };
+    // Register Modal Logic
+    const modalOverlay = document.getElementById("registerModalOverlay");
+    const getStartedBtn = document.getElementById("getStartedBtn");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const registerForm = document.getElementById('registerForm');
+    const registerSuccessMsg = document.getElementById('registerSuccessMsg');
+    const registerModalTitle = document.getElementById('registerModalTitle');
+    const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+    // Open modal on Get Started click
+    if (getStartedBtn) {
+      getStartedBtn.onclick = function() {
+        modalOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+        // Reset form and message if modal is opened again
+        registerSuccessMsg.style.display = "none";
+        registerForm.style.display = "";
+        registerModalTitle.textContent = "Register Here to Get Started";
+        if(registerSubmitBtn) registerSubmitBtn.style.display = "";
+      };
+    }
+    // Close modal on X click or overlay click
+    closeModalBtn.onclick = function() {
+      modalOverlay.classList.remove("active");
+      document.body.style.overflow = "";
+      registerSuccessMsg.style.display = "none";
+      registerForm.style.display = "";
+      registerModalTitle.textContent = "Register Here to Get Started";
+      if(registerSubmitBtn) registerSubmitBtn.style.display = "";
+    };
+    modalOverlay.onclick = function(e) {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+        registerSuccessMsg.style.display = "none";
+        registerForm.style.display = "";
+        registerModalTitle.textContent = "Register Here to Get Started";
+        if(registerSubmitBtn) registerSubmitBtn.style.display = "";
+      }
+    };
+    // Register Form Submission
+    registerForm.onsubmit = function(e){
+        e.preventDefault();
+        registerForm.style.display = "none";
+        registerSuccessMsg.style.display = "";
+        registerModalTitle.textContent = "Thank you for registering!";
+        if(registerSubmitBtn) registerSubmitBtn.style.display = "none";
+    };
+    // Contact Form Submission
+    document.getElementById('contactForm').onsubmit = function(e){
+        e.preventDefault();
+        alert('Thank you for your inquiry! We will get back to you soon.');
+        this.reset();
+    };
     </script>
 </body>
 </html>
