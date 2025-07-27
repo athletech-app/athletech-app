@@ -6,6 +6,597 @@
     <script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="Y4nvSZ0LSX8jUrsGt1t0l";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AthleTech AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 450px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-50%) translateY(-50%); }
+            100% { transform: translateX(-48%) translateY(-48%); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .chatbot-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .chatbot-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .typing-dots {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 12px 16px;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .typing-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            margin: 0 2px;
+            animation: typing 1.4s ease-in-out infinite both;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .send-btn {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .send-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            padding: 8px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .bot-avatar {
+            position: absolute;
+            left: -15px;
+            bottom: -5px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-avatar {
+            position: absolute;
+            right: -15px;
+            bottom: -5px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-container {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            
+            body {
+                padding: 0;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="header-content">
+                <div class="chatbot-title">⚡ AthleTech AI</div>
+                <div class="chatbot-subtitle">Track. Train. Triumph.</div>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-bubble">
+                    <div class="bot-avatar">🤖</div>
+                    Hi there! I'm your AthleTech AI assistant. I'm here to help you with everything about our sports-tech platform. How can I help you today?
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="quick-actions">
+                <button class="quick-action-btn" onclick="sendQuickMessage('What is AthleTech?')">About Us</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Find a coach')">Find Coach</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Pricing plans')">Pricing</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Safety features')">Safety</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Playway sessions')">Kids Programs</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Which sports')">Sports</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('How to register')">Sign Up</button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Contact support')">Support</button>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about AthleTech...">
+                <button class="send-btn" onclick="sendMessage()">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive AthleTech Knowledge Base
+        const athletechKB = {
+            about: {
+                keywords: ['what is athletech', 'about athletech', 'company', 'platform', 'what do you do', 'tell me about', 'athletech'],
+                response: "AthleTech is India's first comprehensive sports-tech ecosystem! 🏆 Founded in 2025, we're revolutionizing how athletes connect, train, and triumph.\n\n🎯 Our Mission: To empower young athletes by providing access to expert coaching, personalized training, and supportive community through one smart, inclusive, and affordable digital platform.\n\n🌟 Our Vision: To become the leading digital ecosystem for youth sports, where every athlete - regardless of location, background, or ability - can track progress, train with purpose, and triumph with confidence.\n\n✨ Why AthleTech? Because talent is universal, but opportunity isn't. We're here to change that!"
+            },
+            
+            features: {
+                keywords: ['features', 'what can i do', 'services', 'offerings', 'capabilities', 'functions'],
+                response: "AthleTech offers a complete sports ecosystem! 🎯 Here's everything you can do:\n\n🏅 CORE FEATURES:\n• Coach-Athlete Network: Smart matching with verified coaches\n• AI-Personalized Training Plans: Customized to your sport & skill level\n• Progress Tracking: Advanced analytics with wearable integration\n• Playway Sessions: Gamified training for kids (4-10 years)\n• Mental Wellness Hub: Sports psychology & counseling\n• Merchandise Store: Exclusive AthleTech branded gear\n\n⚡ ADVANCED FEATURES:\n• Live Chat with AI moderation\n• Performance Analytics Dashboard\n• Community Forums & Networking\n• Video Analysis Tools\n• Nutrition & Fitness Guidance\n• Parent Portals for kids' safety"
+            },
+            
+            coaches: {
+                keywords: ['find coach', 'coach', 'trainer', 'how to book', 'coaching', 'mentor', 'instructor', 'teacher'],
+                response: "Finding your perfect coach is our specialty! 👨‍🏫 Here's how our coach network works:\n\n🔍 SMART SEARCH:\n• Filter by sport, location, experience level\n• View detailed profiles with achievements\n• Check ratings, reviews, and success stories\n• See coach specializations and training styles\n\n📅 EASY BOOKING:\n• One-on-one sessions (₹200-₹800/session)\n• Group training sessions\n• Online or in-person options\n• Flexible scheduling system\n\n✅ COACH VERIFICATION:\n• Background checks completed\n• Certified credentials verified\n• Experience and matches played documented\n• Number of athletes trained displayed\n\n💪 COACH FEATURES:\n• Personalized training plans\n• Progress tracking tools\n• Session feedback system\n• Direct communication platform"
+            },
+            
+            playway: {
+                keywords: ['playway', 'kids sessions', 'children', 'ages 4-10', 'gamified', 'young athletes', 'child training'],
+                response: "Playway Sessions make sports FUN for young champions! 🎮⚽\n\n👦👧 PERFECT FOR AGES 4-10:\n• Fun, developmental sports programs\n• Motor skill enhancement activities\n• Interactive challenges and games\n• Team building exercises\n\n🎯 WHAT KIDS LEARN:\n• Fundamental sports techniques\n• Coordination and agility\n• Teamwork and sportsmanship\n• Confidence building\n• Healthy competition mindset\n\n💰 PRICING: ₹100-₹200 per session\n📍 LOCATIONS: Partner schools and training centers\n🏆 BENEFITS: Certificates, progress tracking, and achievement badges\n\n🎉 SPECIAL FEATURES:\n• Gamified learning modules\n• Interactive virtual practice spaces\n• Progress rewards and recognition\n• Safe, supervised environment"
+            },
+            
+            safety: {
+                keywords: ['safety', 'child protection', 'secure', 'moderation', 'safe', 'security', 'privacy', 'data protection'],
+                response: "Safety is our absolute TOP priority! 🛡️ AthleTech maintains the highest security standards:\n\n👶 CHILD PROTECTION:\n• AI-powered 24/7 content moderation\n• Human moderators for manual review\n• Zero tolerance policy for inappropriate behavior\n• Parent portals with real-time updates\n• Secure, monitored communication channels\n\n✅ COACH VERIFICATION:\n• Comprehensive background checks\n• ID verification and certification checks\n• Reference verification from previous clients\n• Ongoing performance monitoring\n\n🔒 DATA SECURITY:\n• End-to-end encryption for all communications\n• GDPR-compliant data handling\n• Secure payment processing\n• Regular security audits\n\n👥 COMMUNITY SAFETY:\n• User Advisory Board oversight\n• Reporting system for any concerns\n• Community guidelines enforcement\n• Regular safety training for staff"
+            },
+            
+            pricing: {
+                keywords: ['price', 'cost', 'subscription', 'how much', 'plans', 'fee', 'charges', 'payment', 'money'],
+                response: "AthleTech offers flexible pricing for every budget! 💰\n\n🆓 FREE TIER:\n• Basic coach search and profiles\n• Community forum access\n• Limited progress tracking\n• Basic merchandise browsing\n\n💎 PREMIUM PLANS:\n• BASIC: ₹199/month - Enhanced analytics, priority support\n• PRO: ₹349/month - AI training plans, advanced tracking\n• ELITE: ₹499/month - All features, 1-on-1 sessions included\n\n⚡ SESSION PRICING:\n• Coach sessions: ₹200-₹800 (varies by experience)\n• Playway sessions: ₹100-₹200 per session\n• Group sessions: 30% discount\n• Package deals available\n\n🛍️ ADDITIONAL COSTS:\n• Merchandise: Competitive pricing with member discounts\n• Special events: ₹50-₹500 depending on event\n• Premium features: Optional add-ons available\n\n💝 SPECIAL OFFERS:\n• Student discounts available\n• Family packages for multiple children\n• Loyalty rewards program\n• Referral bonuses"
+            },
+            
+            merchandise: {
+                keywords: ['merchandise', 'store', 'gear', 'apparel', 'kit', 'equipment', 'clothing', 'accessories', 'shop'],
+                response: "Shop the AthleTech collection and wear your passion! 👕⚽\n\n🎽 APPAREL COLLECTION:\n• AthleTech branded jerseys and t-shirts\n• Training shorts and track pants\n• Hoodies and jackets\n• Sports caps and headbands\n• Custom team uniforms available\n\n⚽ SPORTS EQUIPMENT:\n• Sport-specific gear (footballs, cricket bats, etc.)\n• Training accessories (cones, markers, resistance bands)\n• Protective equipment (shin guards, helmets)\n• Fitness equipment (skipping ropes, agility ladders)\n\n💪 SPECIAL FEATURES:\n• High-quality materials and durability\n• Affordable pricing with member discounts\n• Loyalty points on every purchase\n• Seasonal collections and limited editions\n• Custom printing and personalization\n\n📦 DELIVERY & RETURNS:\n• Fast delivery across India\n• Easy return and exchange policy\n• Quality guarantee on all products\n• Bulk order discounts for teams and schools"
+            },
+            
+            technology: {
+                keywords: ['ai', 'app', 'technology', 'how it works', 'platform', 'artificial intelligence', 'tech', 'algorithm'],
+                response: "AthleTech is powered by cutting-edge sports technology! 🚀\n\n🤖 AI-POWERED FEATURES:\n• Smart coach-athlete matching algorithms\n• Personalized training plan generation\n• Performance analysis and insights\n• Injury risk detection and prevention\n• Automated progress tracking\n\n📱 PLATFORM CAPABILITIES:\n• Cross-platform mobile and web app\n• Real-time chat with moderation\n• Video analysis and feedback tools\n• Integration with wearables (Fitbit, Apple Watch)\n• Cloud-based data storage and sync\n\n📊 ANALYTICS & TRACKING:\n• Comprehensive performance dashboards\n• Progress visualization and reports\n• Comparative analysis with peers\n• Goal setting and achievement tracking\n• Historical data and trends\n\n🔧 TECHNICAL INFRASTRUCTURE:\n• Scalable cloud architecture\n• 99.9% uptime guarantee\n• Fast loading and responsive design\n• Secure API integrations\n• Regular updates and new features"
+            },
+            
+            team: {
+                keywords: ['team', 'founders', 'leadership', 'ceo', 'cto', 'cfo', 'who founded', 'management'],
+                response: "Meet the powerhouse team behind AthleTech! 👥\n\n🎯 LEADERSHIP TEAM:\n• Ayan (CEO): Visionary leader driving strategic direction\n• Aadhya (CFO): Financial strategist ensuring sustainable growth\n• Darsh (CTO): Tech innovator building our platform backbone\n• Aalya Dhingra (CMO): Marketing expert crafting compelling campaigns\n• Aalya Gambhir (MD): Operations leader bringing structure to success\n\n💡 OUR STORY:\n• Founded by young minds who understood the real gap in sports\n• Built by athletes, for athletes\n• Passionate about democratizing sports opportunities\n• Committed to bridging talent and technology\n\n🏆 TEAM EXPERTISE:\n• Combined experience in sports, technology, and business\n• Deep understanding of athlete needs and challenges\n• Proven track record in building scalable platforms\n• Strong network in sports and coaching communities"
+            },
+            
+            registration: {
+                keywords: ['sign up', 'register', 'create account', 'join', 'how to start', 'getting started', 'onboarding'],
+                response: "Ready to join the AthleTech family? Getting started is super easy! 🚀\n\n📝 REGISTRATION PROCESS:\n1. Download the AthleTech app (coming soon!)\n2. Create your profile (athlete, coach, or parent)\n3. Complete verification process\n4. Choose your subscription plan\n5. Start connecting and training!\n\n👤 PROFILE SETUP:\n• Add your sports interests and experience level\n• Upload photos and achievements\n• Set your location and availability\n• Define your training goals\n• Connect with friends and teammates\n\n✅ VERIFICATION:\n• Email and phone verification\n• For coaches: Additional credential verification\n• For minors: Parent/guardian approval required\n• Safety background checks where applicable\n\n🎁 WELCOME BONUS:\n• 7-day free trial of premium features\n• Welcome merchandise discount\n• Free first Playway session for kids\n• Access to exclusive onboarding webinars"
+            },
+            
+            sports: {
+                keywords: ['sports', 'which sports', 'games', 'activities', 'disciplines', 'what sports do you cover'],
+                response: "AthleTech supports a wide range of sports and activities! ⚽🏏🏀\n\n🏆 MAJOR SPORTS COVERED:\n• Cricket (most popular in India)\n• Football/Soccer\n• Basketball\n• Badminton\n• Tennis\n• Swimming\n• Athletics/Track & Field\n• Hockey\n• Volleyball\n• Table Tennis\n\n🥋 SPECIALIZED TRAINING:\n• Martial Arts (Karate, Taekwondo, Judo)\n• Gymnastics and Yoga\n• Fitness and Strength Training\n• Dance and Movement\n• Adventure Sports preparation\n\n👶 PLAYWAY SPORTS (Ages 4-10):\n• Basic motor skills development\n• Multi-sport introduction programs\n• Fun games and activities\n• Coordination and balance training\n• Team building exercises\n\n🎯 COMING SOON:\n• Esports and gaming\n• Specialized Paralympic sports\n• Regional and traditional sports\n• Winter sports preparation"
+            },
+            
+            parents: {
+                keywords: ['parents', 'parent portal', 'family', 'guardian', 'child safety', 'monitoring'],
+                response: "AthleTech puts parents in control and keeps families connected! 👨‍👩‍👧‍👦\n\n🔐 PARENT PORTAL FEATURES:\n• Real-time session monitoring and updates\n• Direct communication with coaches\n• Progress tracking and report access\n• Payment and booking management\n• Safety alert notifications\n\n👶 CHILD SAFETY CONTROLS:\n• Approve/disapprove coach selections\n• Set session time restrictions\n• Monitor all communications\n• Access to safety reporting tools\n• Emergency contact features\n\n📊 PROGRESS INSIGHTS:\n• Detailed performance reports\n• Goal achievement tracking\n• Skill development analytics\n• Health and fitness monitoring\n• Recommended next steps\n\n💰 FAMILY FEATURES:\n• Multiple child account management\n• Family discount packages\n• Shared payment methods\n• Group session bookings\n• Sibling progress comparisons\n\n🎓 EDUCATIONAL RESOURCES:\n• Parenting tips for young athletes\n• Nutrition and health guidance\n• Sports psychology insights\n• Injury prevention information"
+            },
+            
+            business: {
+                keywords: ['business model', 'revenue', 'how do you make money', 'monetization', 'growth', 'funding'],
+                response: "AthleTech operates on a sustainable multi-revenue stream model! 💼\n\n💰 REVENUE STREAMS:\n• Subscription fees (₹199-₹499/month)\n• Coach commission (10-15% per session)\n• Merchandise sales (30-50% markup)\n• Playway session fees\n• Corporate wellness partnerships\n• Advertising and sponsorships\n\n📈 GROWTH STRATEGY:\n• School and academy partnerships\n• Campus ambassador programs\n• Influencer collaborations\n• Referral reward programs\n• Community events and tournaments\n\n💵 FINANCIAL PROJECTIONS:\n• Year 1: ₹25,00,000 revenue target\n• Year 2: ₹60,00,000 revenue target\n• Break-even expected by Month 10\n• 10,000+ active users by Year 2\n\n🎯 INVESTMENT FOCUS:\n• 45% on tech development\n• 30% on marketing and user acquisition\n• 14% as operational capital\n• 11% on logistics and infrastructure"
+            },
+            
+            support: {
+                keywords: ['help', 'support', 'contact', 'customer service', 'assistance', 'problem', 'issue', 'complaint'],
+                response: "We're here to help you succeed! Our support team is ready to assist 24/7! 🤝\n\n📞 CONTACT OPTIONS:\n• In-app chat support (instant response)\n• Email: support@athletech.com\n• Phone: Coming soon with app launch\n• Community forums for peer help\n• FAQ section with common solutions\n\n🛠️ SUPPORT SERVICES:\n• Technical troubleshooting\n• Account and billing assistance\n• Coach-athlete dispute resolution\n• Safety concern reporting\n• Feature requests and feedback\n\n⚡ RESPONSE TIMES:\n• Chat support: Instant to 5 minutes\n• Email support: Within 24 hours\n• Critical issues: Immediate escalation\n• General queries: Same day response\n\n🎓 SELF-HELP RESOURCES:\n• Comprehensive user guides\n• Video tutorials and walkthroughs\n• Community knowledge base\n• Regular webinars and training sessions\n\n🏆 PREMIUM SUPPORT:\n• Priority queue for premium members\n• Dedicated account managers\n• Phone support access\n• Advanced troubleshooting assistance"
+            }
+        };
+
+        const generalResponses = [
+            "That's an interesting question! I'm your AthleTech specialist and I'm here to help you discover how our sports-tech platform can transform your athletic journey. 🏆 Would you like to know about our coaches, training programs, safety features, or something specific?",
+            "I'd love to help you with that! As your AthleTech AI assistant, I have comprehensive knowledge about our platform, features, pricing, coaches, and more. What aspect interests you most - finding coaches, Playway sessions for kids, our merchandise store, or technical features?",
+            "Great question! Let me help you explore how AthleTech can support your sports goals. 🚀 Our platform offers everything from AI-powered coach matching to personalized training plans. What would you like to discover first?",
+            "I'm here to provide detailed information about AthleTech! 💪 Whether you're an athlete looking for coaching, a parent seeking safe training for your child, or someone interested in our technology - I can help. What specific information can I provide?",
+            "Thanks for asking! AthleTech has so many features and benefits to explore. 🎯 I can tell you about our subscription plans, coach verification process, safety measures, sports coverage, or any other aspect. What interests you most?"
+        ];
+
+        function findBestResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            let bestMatch = null;
+            let highestScore = 0;
+            
+            // Check each category in knowledge base with scoring
+            for (const [category, data] of Object.entries(athletechKB)) {
+                let score = 0;
+                for (const keyword of data.keywords) {
+                    if (message.includes(keyword)) {
+                        // Longer keyword matches get higher scores
+                        score += keyword.length;
+                    }
+                }
+                
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = data.response;
+                }
+            }
+            
+            // Special handling for common variations and related terms
+            const specialCases = {
+                'how does it work': athletechKB.technology.response,
+                'is it safe': athletechKB.safety.response,  
+                'for kids': athletechKB.playway.response,
+                'cost': athletechKB.pricing.response,
+                'free': athletechKB.pricing.response,
+                'founder': athletechKB.team.response,
+                'contact': athletechKB.support.response,
+                'which sports': athletechKB.sports.response,
+                'age limit': athletechKB.playway.response,
+                'download app': "Ready to start your AthleTech journey? 📱\n\nOur app is currently in development and will be available soon on:\n• Google Play Store (Android)\n• Apple App Store (iOS)\n• Web platform accessible from any browser\n\nStay tuned for our launch announcement! Follow us on social media for updates. In the meantime, you can reach out to join our beta testing program!",
+                'mission': athletechKB.about.response,
+                'vision': athletechKB.about.response
+            };
+            
+            for (const [key, response] of Object.entries(specialCases)) {
+                if (message.includes(key)) {
+                    return response;
+                }
+            }
+            
+            // If we found a good match, return it
+            if (bestMatch && highestScore > 0) {
+                return bestMatch;
+            }
+            
+            // Enhanced fallback responses with more helpful suggestions
+            const enhancedFallbacks = [
+                "I'd love to help you learn about AthleTech! 🏆 Here are some popular topics:\n\n• 'What is AthleTech?' - Learn about our platform\n• 'Find a coach' - Discover our coaching network\n• 'Pricing plans' - See our subscription options\n• 'Safety features' - Our child protection measures\n• 'Playway sessions' - Fun training for kids\n\nWhat interests you most?",
+                
+                "Great question! Let me help you explore AthleTech! 🚀 You can ask me about:\n\n• Our sports coverage and activities\n• How to register and get started\n• Coach verification and booking process\n• Technology features and AI capabilities\n• Merchandise store and gear\n• Support and customer service\n\nWhat would you like to know?",
+                
+                "I'm here to provide detailed information about AthleTech! 💪 Popular questions include:\n\n• 'How does AthleTech work?'\n• 'Is it safe for children?'\n• 'What sports do you cover?'\n• 'How much does it cost?'\n• 'Who founded AthleTech?'\n\nFeel free to ask about any aspect of our platform!"
+            ];
+            
+            return enhancedFallbacks[Math.floor(Math.random() * enhancedFallbacks.length)];
+        }
+
+        function addMessage(message, isUser = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            
+            if (!isUser) {
+                const avatar = document.createElement('div');
+                avatar.className = 'bot-avatar';
+                avatar.textContent = '🤖';
+                bubbleDiv.appendChild(avatar);
+            } else {
+                const avatar = document.createElement('div');
+                avatar.className = 'user-avatar';
+                avatar.textContent = '👤';
+                bubbleDiv.appendChild(avatar);
+            }
+            
+            // Format message with line breaks
+            const formattedMessage = message.replace(/\n/g, '<br>');
+            bubbleDiv.innerHTML += formattedMessage;
+            
+            messageDiv.appendChild(bubbleDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI thinking time
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = findBestResponse(message);
+                addMessage(response);
+            }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+        }
+
+        function sendQuickMessage(message) {
+            document.getElementById('chatInput').value = message;
+            sendMessage();
+        }
+
+        // Event listeners
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Auto-focus input
+        document.getElementById('chatInput').focus();
+    </script>
+</body>
+</html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AthleTech - Fueling Talent. Shaping Athletic Futures.</title>
